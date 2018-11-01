@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Ancolab
+Bundle-SymbolicName: aero.alestis.stresstools.ancolab
+Bundle-Version: 1.0.0.qualifier
+Export-Package: .,
+ aero.alestis.stresstools.ancolab.business,
+ aero.alestis.stresstools.ancolab.db,
+ aero.alestis.stresstools.ancolab.model,
+ aero.alestis.stresstools.ancolab.parsers.xml
+Import-Package: org.eclipse.swt.widgets
