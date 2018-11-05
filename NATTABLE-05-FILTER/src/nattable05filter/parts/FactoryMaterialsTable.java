@@ -152,13 +152,24 @@ public class FactoryMaterialsTable {
 
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public BodyLayerStack(List<AncolabMaterial> values, IColumnPropertyAccessor<AncolabMaterial> columnPropertyAccessor) {
-            DataLayer dp = new DataLayer((IDataProvider) values);
+           // DataLayer dp = new DataLayer((IDataProvider) values);
             //dp.getdat.getda
 			// wrapping of the list to show into GlazedLists
             // see http://publicobject.com/glazedlists/ for further information
             EventList<AncolabMaterial> eventList = GlazedLists.eventList(values);
-            DataLayer dataLayer = new DataLayer((IDataProvider) eventList);
-            dataLayer.registerCommandHandler(new AddRowCommandHandler(eventList));
+           
+            
+            //
+            DataLayer dataLayer = new DataLayer(new ListDataProvider<AncolabMaterial>(eventList, columnPropertyAccessor));
+           // dataLayer.registerCommandHandler(dataLayer.getDataProvider().g);
+            
+           // ((EventList<AncolabMaterial>)dataLayer.getDataProvider()).getList();
+            
+            //dataLayer.setDataProvider(dataProvider);
+           // IDataProvider dp = dataLayer.getDataProvider();
+            //((EventList<AncolabMaterial>)dp).get
+            //DataLayer dataLayer = new DataLayer((IDataProvider) eventList);
+            //dataLayer.registerCommandHandler(new AddRowCommandHandler(eventList));
             TransformedList<?, ?> rowObjectsGlazedList = GlazedLists.threadSafeList(eventList);
             // use the SortedList constructor with 'null' for the Comparator
             // because the Comparator will be set by configuration
@@ -168,11 +179,12 @@ public class FactoryMaterialsTable {
            // this.filterList.get
             
             //this.bodyDataProvider = new ListDataProvider<AncolabMaterial>(eventList, columnPropertyAccessor);
-            this.bodyDataProvider = new ListDataProvider<AncolabMaterial>(filterList, columnPropertyAccessor);
-            
+            //this.bodyDataProvider = new ListDataProvider<AncolabMaterial>(filterList, columnPropertyAccessor);
+            this.bodyDataProvider = dataLayer.getDataProvider();;
+           
             DataLayer bodyDataLayer = new DataLayer(getBodyDataProvider());
             bodyDataLayer.registerCommandHandler(new DeleteRowCommandHandler<>(((ListDataProvider<AncolabMaterial>) bodyDataProvider).getList()));
-            //bodyDataLayer.registerCommandHandler(new AddRowCommandHandler(((ListDataProvider<AncolabMaterial>) bodyDataProvider).getList()));
+            bodyDataLayer.registerCommandHandler(new AddRowCommandHandler(((ListDataProvider<AncolabMaterial>) bodyDataProvider).getList()));
             //bodyDataLayer.registerCommandHandler(new AddRowCommandHandler(eventList));
 
             //Set cell width
@@ -271,6 +283,127 @@ public class FactoryMaterialsTable {
         
         }
     }
+    
+    
+    
+    static class MyDataProvider implements IDataProvider{
+    	private EventList<AncolabMaterial> list;
+    	
+    	public MyDataProvider(EventList<AncolabMaterial> thelist) {
+    		this.list = thelist;
+    	}
+
+		@Override
+		public Object getDataValue(int columnIndex, int rowIndex) {
+			String value = null;
+			switch(columnIndex) {
+				case 0:
+					value = this.list.get(rowIndex).getName();
+					break;
+				case 1:
+					value = this.list.get(rowIndex).getLibrary();
+					break;
+				case 3:
+					value = this.list.get(rowIndex).getType();
+					break;
+				case 4:
+					value = this.list.get(rowIndex).getThickness();
+					break;
+				case 5:
+					value = this.list.get(rowIndex).getE1();
+					break;
+				case 6:
+					value = this.list.get(rowIndex).getE2();
+					break;
+				case 7:
+					value = this.list.get(rowIndex).getG12();
+					break;
+				case 8:
+					value = this.list.get(rowIndex).getNu12();
+					break;
+			}
+			return value;
+		}
+
+		@Override
+		public void setDataValue(int columnIndex, int rowIndex, Object newValue) {
+			switch(columnIndex) {
+				case 0:
+					this.list.get(rowIndex).setName((String) newValue);
+					break;
+				case 1:
+					this.list.get(rowIndex).setLibrary((String) newValue);
+					break;
+				case 3:
+					this.list.get(rowIndex).setType((String) newValue);
+					break;
+				case 4:
+					this.list.get(rowIndex).setThickness((String) newValue);
+					break;
+				case 5:
+					this.list.get(rowIndex).setE1((String) newValue);
+					break;
+				case 6:
+					this.list.get(rowIndex).setE2((String) newValue);
+					break;
+				case 7:
+					this.list.get(rowIndex).setG12((String) newValue);
+					break;
+				case 8:
+					this.list.get(rowIndex).setNu12((String) newValue);
+					break;
+			}
+			
+		}
+
+		@Override
+		public int getColumnCount() {
+			return 8;
+		}
+
+		@Override
+		public int getRowCount() {
+			return this.list.size();
+		}
+		
+		public  EventList<AncolabMaterial> getList(){
+			return this.list;
+		}
+    	
+    }
+   
+    /*
+    class TwoDimensionalArrayDataProvider implements IDataProvider {
+
+        private String[][] data;
+
+        public TwoDimensionalArrayDataProvider(String[][] data) {
+            this.data = data;
+        }
+
+        @Override
+        public Object getDataValue(int columnIndex, int rowIndex) {
+            return this.data[columnIndex][rowIndex];
+        }
+
+        @Override
+        public void setDataValue(int columnIndex, int rowIndex, Object newValue) {
+            this.data[columnIndex][rowIndex] = newValue != null ? newValue
+                    .toString() : null;
+        }
+
+        @Override
+        public int getColumnCount() {
+            return this.data.length;
+        }
+
+        @Override
+        public int getRowCount() {
+            return this.data[0] != null ? this.data[0].length : 0;
+        }
+
+    }
+    */
 }
 
 

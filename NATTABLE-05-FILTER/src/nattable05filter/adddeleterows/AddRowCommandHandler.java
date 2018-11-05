@@ -30,12 +30,11 @@ public class AddRowCommandHandler<AncolabMaterial> implements ILayerCommandHandl
 		System.out.println("Target layer  " +targetLayer.toString());
 		System.out.println("Aquí se sabe si el command lleva el material+++++++++++++++++++++--------------");
 		//System.out.println(mat.getName());
-		System.out.println("Aquí se sabe si el command lleva el material+++++++++++++++++++++--------------");
+		//System.out.println("Aquí se sabe si el command lleva el material+++++++++++++++++++++--------------");
 		
 		//if (command.convertToTargetLayer(targetLayer)) {
 			this.bodyData.add(0, (AncolabMaterial)command.getItem() );
 			System.out.println("FFFFFFFFFFFFFFFFf "+this.bodyData.size());
-			
             targetLayer.fireLayerEvent(new RowInsertEvent(targetLayer, command.getRowPosition()));
             //System.out.println(((DataLayer) targetLayer).getRowCount());
 			return true;
