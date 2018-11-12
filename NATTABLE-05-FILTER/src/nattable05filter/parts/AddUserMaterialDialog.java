@@ -4,6 +4,8 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -33,6 +35,9 @@ public class AddUserMaterialDialog extends TitleAreaDialog {
     private Button compositeButton;
     private Button honeycombButton;
     
+    private FocusListener focusListenerHoneycombButton;  
+    private FocusListener focusListenerCompositeButton;    
+
     private SelectionListener selectionListener;
     private ModifyListener modifyListener;
 
@@ -61,6 +66,51 @@ public class AddUserMaterialDialog extends TitleAreaDialog {
 				ok.setEnabled(test);
 			}
         };
+       
+        selectionListener = new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				System.out.println("HONEYCOMB:\t"+honeycombButton.getSelection());
+				System.out.println("COMPOSITE:\t"+compositeButton.getSelection());
+
+				boolean test;
+				test = (validate()) ? true : false;
+				ok.setEnabled(test);
+			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+        };
+       
+        focusListenerHoneycombButton = new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				System.out.println("HONEYCOMB:\t"+honeycombButton.getSelection());
+				System.out.println("COMPOSITE:\t"+compositeButton.getSelection());
+
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+			}
+        };
+        focusListenerCompositeButton = new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				System.out.println("HONEYCOMB:\t"+honeycombButton.getSelection());
+				System.out.println("COMPOSITE:\t"+compositeButton.getSelection());
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+			}
+        };       
+        
+        
+        //honeycombButton.addFocusListener(focusListenerHoneycombButton);
+        //compositeButton.addFocusListener(focusListenerCompositeButton);
+
+        honeycombButton.addSelectionListener(selectionListener);
+        compositeButton.addSelectionListener(selectionListener);
         txtName.addModifyListener(modifyListener);
         thicknessText.addModifyListener(modifyListener);
         e1Text.addModifyListener(modifyListener);
@@ -81,9 +131,11 @@ public class AddUserMaterialDialog extends TitleAreaDialog {
     }
     
     private boolean validate() {
-    	if(validateName() && validateE1() && validateE2() && validateG12() && validateNu12() && validateThickness())
-    		return true;
-    	return false;
+    	if(honeycombButton.getSelection()) {
+    		return validateName() && validateE1() && validateE2() && validateG12() && validateNu12();
+    	}
+    	return validateName() && validateE1() && validateE2() && validateG12() && validateNu12() && validateThickness();
+    
 	}
 	private boolean validateName() {
 		if (txtName.getText().equals(""))
@@ -162,13 +214,26 @@ public class AddUserMaterialDialog extends TitleAreaDialog {
 			if(d<0)
 				return false;
 			return true;
-
 		}catch(NumberFormatException e) {
 			e.printStackTrace();
 			return false;
 		}
-	}	
+	}
 	
+	private boolean validateTypeAndThickness(){
+		System.out.println("CompositeButton\t"+compositeButton.getEnabled());
+		System.out.println("Thickness\t"+thicknessText.getText().toString());
+		
+		if(compositeButton.getSelection()) 
+			System.out.println("Dentro del IF\t"+thicknessText.getText().equals(""));
+
+			if(thicknessText.getText().equals("")){
+				return false;
+			}
+		return true;
+		
+
+	}
 
 	@Override
     protected Control createDialogArea(Composite parent) {

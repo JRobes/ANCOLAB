@@ -8,6 +8,9 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import org.eclipse.e4.ui.services.internal.events.EventBroker;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.command.ILayerCommand;
 import org.eclipse.nebula.widgets.nattable.command.ILayerCommandHandler;
@@ -67,7 +70,7 @@ import nattable05filter.adddeleterows.AddRowCommandHandler;
 import nattable05filter.adddeleterows.DeleteRowCommandHandler;
 
 public class FactoryMaterialsTable {
-
+	@Inject EventBroker broker;
     private ListDataProvider<AncolabMaterial> bodyDataProvider;
     private SelectionLayer selectionLayer;
     private List<AncolabMaterial> listOfData;
@@ -135,6 +138,26 @@ public class FactoryMaterialsTable {
         natTable.addDragSupport(DND.DROP_COPY, transfer, dragSupport);        
 		return natTable;
 	}
+
+	public SelectionLayer getSelectionLayer() {
+		return selectionLayer;
+	}
+
+
+
+	//public void setSelectionLayer(SelectionLayer selectionLayer) {
+	//	this.selectionLayer = selectionLayer;
+	//}
+
+	public ListDataProvider<AncolabMaterial> getBodyDataProvider() {
+		return bodyDataProvider;
+	}
+
+	//public void setBodyDataProvider(ListDataProvider<AncolabMaterial> bodyDataProvider) {
+	//	this.bodyDataProvider = bodyDataProvider;
+	//}
+
+
 
 	/**
      * Always encapsulate the body layer stack in an AbstractLayerTransform to
@@ -207,11 +230,11 @@ public class FactoryMaterialsTable {
                     new GlazedListsEventLayer<AncolabMaterial>(bodyDataLayer, this.filterList);
            // glazedListsEventLayer.
             
-            glazedListsEventLayer.registerCommandHandler(new AddRowCommandHandler(((ListDataProvider<AncolabMaterial>) bodyDataProvider).getList()));
+            //glazedListsEventLayer.registerCommandHandler(new AddRowCommandHandler(((ListDataProvider<AncolabMaterial>) bodyDataProvider).getList()));
             //this.selectionLayer = new SelectionLayer(glazedListsEventLayer);
             
             this.selectionLayer = new SelectionLayer(glazedListsEventLayer, false);
- 
+            
             // use a RowSelectionModel that will perform row selections and is able
             // to identify a row via unique ID
             selectionLayer.setSelectionModel(new RowSelectionModel<>(
@@ -220,7 +243,6 @@ public class FactoryMaterialsTable {
 						public Serializable getRowId(Object rowObject) {
                             return ((AncolabMaterial)rowObject).getName();
 						}
-
                     },false));
             selectionLayer.addConfiguration(new DefaultRowSelectionLayerConfiguration());
 

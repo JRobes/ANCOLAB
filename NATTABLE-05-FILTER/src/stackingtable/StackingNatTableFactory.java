@@ -1,4 +1,4 @@
-package nattable05filter.parts;
+package stackingtable;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -50,6 +50,7 @@ import org.eclipse.swt.widgets.Composite;
 import aero.alestis.stresstools.ancolab.model.AncolabConstants;
 import aero.alestis.stresstools.ancolab.model.AncolabStackingLayer;
 import ca.odell.glazedlists.EventList;
+import nattable05filter.parts.DragAndDropSupport;
 
 
 public class StackingNatTableFactory {
