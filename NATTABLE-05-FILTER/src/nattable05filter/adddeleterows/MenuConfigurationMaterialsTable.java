@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 
 import aero.alestis.stresstools.ancolab.model.AncolabMaterial;
-import nattable05filter.parts.AddUserMaterialDialog;
+import materialstable.AddUserMaterialDialog;
 
 public class MenuConfigurationMaterialsTable extends AbstractUiBindingConfiguration {
 

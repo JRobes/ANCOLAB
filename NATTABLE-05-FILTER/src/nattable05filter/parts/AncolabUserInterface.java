@@ -80,6 +80,7 @@ import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.GlazedLists;
 import ca.odell.glazedlists.event.ListEvent;
 import ca.odell.glazedlists.event.ListEventListener;
+import materialstable.AddUserMaterialDialog;
 import materialstable.MaterialsTable;
 import materialstable.MaterialsTableBodyLayerStack;
 import nattable05filter.adddeleterows.AddRowCommand;

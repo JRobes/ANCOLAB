@@ -1,4 +1,4 @@
-package nattable05filter.parts;
+package materialstable;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
