@@ -41,7 +41,7 @@ import aero.alestis.stresstools.ancolab.model.AncolabStackingLayer;
 import ca.odell.glazedlists.EventList;
 import nattable05filter.parts.DragAndDropSupport;
 
-public class StackingTable {
+public class StackingTable2 {
     private NatTable natTable;
     public static IDataProvider bodyDataProvider;
     public static ISelectionProvider selectionProvider;
@@ -53,12 +53,10 @@ public class StackingTable {
     public static String COLUMN_FIVE_LABEL = "ColumnFiveLabel";
 	
     @SuppressWarnings({ "unused", "rawtypes", "unchecked" })
-	public StackingTable(Composite parent, 
+	public StackingTable2(Composite parent, 
 			EventList<AncolabStackingLayer> ancolabStackingData, 
 			SelectionLayer stackingTableSelectionLayer ) {
 		
-    	
-    	
         IConfigRegistry configRegistry = null;
     	String[] propertyNames = { "name", "library", "type", "angle", "thickness"};
         // mapping from property to label, needed for column header labels
@@ -116,7 +114,7 @@ public class StackingTable {
        natTable.addConfiguration(new DefaultNatTableStyleConfiguration());
        gridLayer.addConfiguration(new DefaultEditConfiguration());
        gridLayer.addConfiguration(new DefaultEditBindings());
-       natTable.addConfiguration(new StackingTableConfiguration(bodyDataProvider));
+       natTable.addConfiguration(new StackingTableConfiguration());
        natTable.configure();    
        
        DragAndDropSupport dropSupport =

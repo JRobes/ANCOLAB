@@ -15,8 +15,11 @@ import org.eclipse.swt.graphics.Point;
 
 import aero.alestis.stresstools.ancolab.model.AncolabMaterial;
 import aero.alestis.stresstools.ancolab.model.AncolabStackingLayer;
+import aero.alestis.stresstools.composite.laminate.AbstractLaminateLayer;
+import aero.alestis.stresstools.composite.laminate.CompositeLayer;
+import aero.alestis.stresstools.composite.laminate.HoneycombLayer;
 
-public class DragAndDropSupport implements DragSourceListener, DropTargetListener{
+public class DragAndDropSupport2 implements DragSourceListener, DropTargetListener{
     private final NatTable natTable;
     private final SelectionLayer selectionLayer;
     @SuppressWarnings("rawtypes")
@@ -27,7 +30,7 @@ public class DragAndDropSupport implements DragSourceListener, DropTargetListene
 
 
     @SuppressWarnings("rawtypes")
-	public DragAndDropSupport(NatTable natTable, SelectionLayer selectionLayer, List data) {
+	public DragAndDropSupport2(NatTable natTable, SelectionLayer selectionLayer, List data) {
         this.natTable = natTable;
         this.selectionLayer = selectionLayer;
         this.data = data;
@@ -131,11 +134,19 @@ public class DragAndDropSupport implements DragSourceListener, DropTargetListene
         String[] data = (event.data != null ? event.data.toString().split(
                 "\\" + DATA_SEPARATOR) : new String[] {});
         if (data.length > 0) {
-        	if(data[1].equals("Composite")) {
-        		
+    		AbstractLaminateLayer p = null;
+        	switch(data[1]) {
+        		case "Composite":
+        			p = new CompositeLayer(null, null);
+        			break;
+        		case "HoneyComb":
+        			p = new HoneycombLayer(null, null);
+        			break;
+        		default:
+        			break;
         	}
-        	
-            AncolabStackingLayer p = new AncolabStackingLayer(data[0], data[1],  data[2], data[3] );
+          	
+            //AncolabStackingLayer p = new AncolabStackingLayer(data[0], data[1],  data[2], data[3] );
  
             int rowPosition = getRowPosition(event);
             if (rowPosition > 0) {

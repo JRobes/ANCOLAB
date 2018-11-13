@@ -15,7 +15,6 @@ public class AncolabStackingLayer implements Cloneable {
 		this.angle = "";
 	}
 	public AncolabStackingLayer() {
-		// TODO Auto-generated constructor stub
 	}
 	public String getName() {
 		return name;

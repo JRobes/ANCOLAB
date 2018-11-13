@@ -4,7 +4,9 @@ import org.eclipse.nebula.widgets.nattable.config.AbstractRegistryConfiguration;
 import org.eclipse.nebula.widgets.nattable.config.CellConfigAttributes;
 import org.eclipse.nebula.widgets.nattable.config.IConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.config.IEditableRule;
+import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
 import org.eclipse.nebula.widgets.nattable.edit.EditConfigAttributes;
+import org.eclipse.nebula.widgets.nattable.edit.editor.TextCellEditor;
 import org.eclipse.nebula.widgets.nattable.style.CellStyleAttributes;
 import org.eclipse.nebula.widgets.nattable.style.DisplayMode;
 import org.eclipse.nebula.widgets.nattable.style.Style;
@@ -12,6 +14,11 @@ import org.eclipse.nebula.widgets.nattable.util.GUIHelper;
 
 public class StackingTableConfiguration extends AbstractRegistryConfiguration {
 
+	private IDataProvider bodyDataProvider;
+	public StackingTableConfiguration(IDataProvider dp) {
+		this.bodyDataProvider = dp;
+	}
+	
 	@Override
 	public void configureRegistry(IConfigRegistry configRegistry) {
     	Style cellStyle = new Style();
@@ -34,8 +41,30 @@ public class StackingTableConfiguration extends AbstractRegistryConfiguration {
                 CellConfigAttributes.CELL_STYLE, cellStyle,
                 DisplayMode.NORMAL, StackingNatTableFactory.COLUMN_FIVE_LABEL);
 
+    	
+        configRegistry.registerConfigAttribute(
+        		EditConfigAttributes.CELL_EDITABLE_RULE, 
+        		new ThicknessEditableRule(bodyDataProvider, "Honeycomb", 4),
+        		//IEditableRule.ALWAYS_EDITABLE, 
+        		DisplayMode.EDIT, 
+        		StackingNatTableFactory.COLUMN_FIVE_LABEL);
+       
+        configRegistry.registerConfigAttribute(
+        		EditConfigAttributes.CELL_EDITABLE_RULE, 
+        		new ThicknessEditableRule(bodyDataProvider, "Composite", 3),
+        		//IEditableRule.ALWAYS_EDITABLE, 
+        		DisplayMode.EDIT, 
+        		StackingNatTableFactory.COLUMN_FOUR_LABEL);        
+        
+        
+        
+        //configRegistry.registerConfigAttribute(EditConfigAttributes.CELL_EDITABLE_RULE, IEditableRule.ALWAYS_EDITABLE);
+        
+        
+        
+        
 
-
+/*
 
     	configRegistry.registerConfigAttribute(
         		EditConfigAttributes.CELL_EDITABLE_RULE, 
@@ -43,6 +72,9 @@ public class StackingTableConfiguration extends AbstractRegistryConfiguration {
         		IEditableRule.ALWAYS_EDITABLE, 
         		DisplayMode.EDIT, 
         		StackingNatTableFactory.COLUMN_FIVE_LABEL);
+    */
+    	
+    	
     	/*
     	configRegistry.registerConfigAttribute(
         		EditConfigAttributes.CELL_EDITABLE_RULE, 
@@ -54,34 +86,30 @@ public class StackingTableConfiguration extends AbstractRegistryConfiguration {
     	
     	
     	
-    	/* ESTO TENGO QUE CAMBIARLOS PORQUE BORRE LA PUTA CLASE THICKNESSEDITABLE RULE
-    	 * TEGO QUE VOLER A HACERLA....CAGONDIOS...
-    	configRegistry.registerConfigAttribute(
-        		EditConfigAttributes.CELL_EDITABLE_RULE, 
-        		new ThicknessEditableRule(selectionProvider, "Honeycomb", 4),
-        		//IEditableRule.ALWAYS_EDITABLE, 
-        		DisplayMode.EDIT, 
-        		StackingNatTableFactory.COLUMN_FIVE_LABEL);
+
         		
-        */
+        
     	
     	
     	//TextCellEditor textCellEditor = new TextCellEditor();
     	//textCellEditor.setErrorDecorationEnabled(true);
     	
     	
-/*               
+      /*      
         configRegistry.registerConfigAttribute(
         		EditConfigAttributes.CELL_EDITOR, 
         		new TextCellEditor(true, true),
                 DisplayMode.EDIT,
-                NatTableFactory.COLUMN_FIVE_LABEL);
+                StackingNatTableFactory.COLUMN_FIVE_LABEL);
         
+       */ 
+        
+        /*
         configRegistry.registerConfigAttribute(
                 EditConfigAttributes.DATA_VALIDATOR,
                 getThicknessValidator(), DisplayMode.EDIT,
                 NatTableFactory.COLUMN_FIVE_LABEL);
-*/           
+        */   
 
      /*
         configRegistry.registerConfigAttribute(

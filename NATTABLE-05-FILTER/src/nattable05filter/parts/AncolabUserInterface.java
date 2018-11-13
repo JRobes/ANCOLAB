@@ -88,6 +88,7 @@ import materialstable.MaterialsTable;
 import materialstable.MaterialsTableBodyLayerStack;
 import nattable05filter.adddeleterows.AddRowCommand;
 import stackingtable.StackingNatTableFactory;
+import stackingtable.StackingTable;
 
 public class AncolabUserInterface {
     
@@ -178,7 +179,12 @@ public class AncolabUserInterface {
 		 GridLayout gridLayoutForSectionStackingTable = new GridLayout(4,false);
 		 compositeOfSectionStackingTable.setLayout(gridLayoutForSectionStackingTable);
 
-		 natTableStacking = StackingNatTableFactory.createTable(compositeOfSectionStackingTable, this.ancolabStackingData, this.stackingTableSelectionLayer);
+		 
+		 StackingTable stackingTable = new StackingTable(compositeOfSectionStackingTable, this.ancolabStackingData, this.stackingTableSelectionLayer);
+		 
+		 natTableStacking = stackingTable.getNatTable();
+		 
+		 //natTableStacking = StackingNatTableFactory.createTable(compositeOfSectionStackingTable, this.ancolabStackingData, this.stackingTableSelectionLayer);
 	     GridData gridDataStackingTable = new GridData();
 	     gridDataStackingTable.horizontalSpan = 4;
 		 gridDataStackingTable.grabExcessHorizontalSpace = true;
