@@ -8,6 +8,7 @@ import java.util.Map;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.config.AbstractRegistryConfiguration;
+import org.eclipse.nebula.widgets.nattable.config.CellConfigAttributes;
 import org.eclipse.nebula.widgets.nattable.config.DefaultNatTableStyleConfiguration;
 import org.eclipse.nebula.widgets.nattable.config.IConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.config.IEditableRule;
@@ -35,7 +36,9 @@ import org.eclipse.nebula.widgets.nattable.layer.cell.ColumnOverrideLabelAccumul
 import org.eclipse.nebula.widgets.nattable.painter.layer.NatGridLayerPainter;
 import org.eclipse.nebula.widgets.nattable.selection.RowSelectionProvider;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
+import org.eclipse.nebula.widgets.nattable.style.CellStyleAttributes;
 import org.eclipse.nebula.widgets.nattable.style.DisplayMode;
+import org.eclipse.nebula.widgets.nattable.style.Style;
 import org.eclipse.nebula.widgets.nattable.util.GUIHelper;
 import org.eclipse.nebula.widgets.nattable.viewport.ViewportLayer;
 import org.eclipse.swt.SWT;
@@ -115,7 +118,7 @@ public class StackingNatTableFactory {
         // create the grid layer composed with the prior created layer stacks
         GridLayer gridLayer = new GridLayer(viewportLayer, columnHeaderLayer, rowHeaderLayer, cornerLayer);
         NatTable natTable = new NatTable(parent,  gridLayer, false);
-        
+        natTable.setBackgroundMode(SWT.NO_BACKGROUND);
         natTable.setSize(natTable.getPreferredWidth(), natTable.getPreferredHeight());
        // NatTable natTable = new NatTable(parent,  gridLayer);
 
@@ -128,6 +131,7 @@ public class StackingNatTableFactory {
         */
         
         NatGridLayerPainter layerPainter = new NatGridLayerPainter(natTable,  DataLayer.DEFAULT_ROW_HEIGHT);
+        
         natTable.setLayerPainter(layerPainter);            
        
         //bodyDataLayer.addConfiguration(new DefaultEditConfiguration());
@@ -148,6 +152,8 @@ public class StackingNatTableFactory {
 
  */     
         //SI ELIMINO LO DE ABAJO NO SE VEN LOS DATOS
+        
+        
         natTable.addConfiguration(new DefaultNatTableStyleConfiguration());
         gridLayer.addConfiguration(new DefaultEditConfiguration());
         gridLayer.addConfiguration(new DefaultEditBindings());
@@ -155,13 +161,46 @@ public class StackingNatTableFactory {
 
             @Override
             public void configureRegistry(IConfigRegistry configRegistry) {
-               
+            	Style cellStyle = new Style();
+                cellStyle.setAttributeValue(
+                        CellStyleAttributes.BACKGROUND_COLOR,
+                        GUIHelper.COLOR_WHITE);
+                configRegistry.registerConfigAttribute(
+                        CellConfigAttributes.CELL_STYLE, cellStyle,
+                        DisplayMode.NORMAL, StackingNatTableFactory.COLUMN_ONE_LABEL);
+                configRegistry.registerConfigAttribute(
+                        CellConfigAttributes.CELL_STYLE, cellStyle,
+                        DisplayMode.NORMAL, StackingNatTableFactory.COLUMN_TWO_LABEL);
+                configRegistry.registerConfigAttribute(
+                        CellConfigAttributes.CELL_STYLE, cellStyle,
+                        DisplayMode.NORMAL, StackingNatTableFactory.COLUMN_THREE_LABEL);
+                configRegistry.registerConfigAttribute(
+                        CellConfigAttributes.CELL_STYLE, cellStyle,
+                        DisplayMode.NORMAL, StackingNatTableFactory.COLUMN_FOUR_LABEL);
+                configRegistry.registerConfigAttribute(
+                        CellConfigAttributes.CELL_STYLE, cellStyle,
+                        DisplayMode.NORMAL, StackingNatTableFactory.COLUMN_FIVE_LABEL);
+
+
+
+
             	configRegistry.registerConfigAttribute(
                 		EditConfigAttributes.CELL_EDITABLE_RULE, 
                 		//new OrientationEditableRule(selectionProvider, StressToolsConstants.HONEYCOMB_COMPOSITE_TYPE),
                 		IEditableRule.ALWAYS_EDITABLE, 
                 		DisplayMode.EDIT, 
+                		StackingNatTableFactory.COLUMN_FIVE_LABEL);
+            	/*
+            	configRegistry.registerConfigAttribute(
+                		EditConfigAttributes.CELL_EDITABLE_RULE, 
+                		new OrientationEditableRule(selectionProvider, StressToolsConstants.HONEYCOMB_COMPOSITE_TYPE),
+                		//IEditableRule.ALWAYS_EDITABLE, 
+                		DisplayMode.EDIT, 
                 		StackingNatTableFactory.COLUMN_FOUR_LABEL);
+            	*/
+            	
+            	
+            	
             	/* ESTO TENGO QUE CAMBIARLOS PORQUE BORRE LA PUTA CLASE THICKNESSEDITABLE RULE
             	 * TEGO QUE VOLER A HACERLA....CAGONDIOS...
             	configRegistry.registerConfigAttribute(
@@ -207,7 +246,6 @@ public class StackingNatTableFactory {
         });
  
        
-
         natTable.configure();    
         
         DragAndDropSupport dropSupport =

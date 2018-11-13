@@ -1,4 +1,4 @@
-package nattable05filter.parts;
+package stackingtable;
 
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;

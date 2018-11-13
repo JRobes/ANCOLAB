@@ -36,6 +36,7 @@ import org.eclipse.nebula.widgets.nattable.config.IConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.coordinate.Range;
 import org.eclipse.nebula.widgets.nattable.data.IRowDataProvider;
 import org.eclipse.nebula.widgets.nattable.data.ListDataProvider;
+import org.eclipse.nebula.widgets.nattable.export.command.ExportCommand;
 import org.eclipse.nebula.widgets.nattable.extension.e4.selection.E4SelectionListener;
 import org.eclipse.nebula.widgets.nattable.grid.layer.GridLayer;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
@@ -51,6 +52,8 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -283,17 +286,18 @@ public class AncolabUserInterface {
 		 griDataTrash.grabExcessHorizontalSpace = true;
 		 trash.setLayoutData(griDataTrash);
 
+	      Button addColumnButton = new Button(compositeOfSectionStackingTable, SWT.PUSH);
+	        addColumnButton.setText("Export");
 		 
-		 
-		 trash2 = new Label(compositeOfSectionStackingTable, SWT.BORDER);
-		 trash2.setImage(imageDescriptorTrash.createImage());
+		//trash2 = new Label(compositeOfSectionStackingTable, SWT.BORDER);
+		// trash2.setImage(imageDescriptorTrash.createImage());
 
 		 GridData griDataTrash2 = new GridData();
 		 griDataTrash2.horizontalSpan=1;
 		 griDataTrash2.horizontalAlignment = SWT.BEGINNING;
 		 griDataTrash2.grabExcessHorizontalSpace = true;
-		 trash2.setLayoutData(griDataTrash2);
-		 
+		 //trash2.setLayoutData(griDataTrash2);
+		 addColumnButton.setLayoutData(griDataTrash2);
 		 sectionStakingTable.setClient(compositeOfSectionStackingTable);
 		 //END OF STACKING TABLE SECTION
 		
@@ -504,6 +508,21 @@ public class AncolabUserInterface {
 
 		 sectionResultsTable.setClient(compositeOfSectionResultsTable);
 		 //END OF RESULTS TABLE SECTION
+		 
+		 
+		 //LISTENER PARA EXPORTAR A EXCEL
+		 addColumnButton.addSelectionListener(new SelectionAdapter() {
+	            @Override
+	            public void widgetSelected(SelectionEvent e) {
+	            	natTableMaterials.doCommand(
+	                        new ExportCommand(
+	                        		natTableMaterials.getConfigRegistry(),
+	                        		natTableMaterials.getShell()));
+	            }
+	        });
+
+		 
+		 
 	 	
 		 /*
 		  * LISTENER PARA OBSERVAR CAMBIOS EN LA LISTA DE STACKING Y NOTIFICAR CUANDO ESTA VACIA
