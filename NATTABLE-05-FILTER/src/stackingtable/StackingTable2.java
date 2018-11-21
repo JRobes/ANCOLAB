@@ -114,7 +114,7 @@ public class StackingTable2 {
        natTable.addConfiguration(new DefaultNatTableStyleConfiguration());
        gridLayer.addConfiguration(new DefaultEditConfiguration());
        gridLayer.addConfiguration(new DefaultEditBindings());
-       natTable.addConfiguration(new StackingTableConfiguration());
+       //natTable.addConfiguration(new StackingTableConfiguration());
        natTable.configure();    
        
        DragAndDropSupport dropSupport =

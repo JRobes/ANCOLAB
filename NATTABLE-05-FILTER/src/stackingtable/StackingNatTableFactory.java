@@ -60,6 +60,9 @@ public class StackingNatTableFactory {
     public static String COLUMN_FOUR_LABEL = "ColumnFourLabel";
     public static String COLUMN_FIVE_LABEL = "ColumnFiveLabel";
     
+    public static String COMPOSITE_THICKNESS_LABEL = "CompositeThicknessLabel";
+    
+    
     public static IDataProvider bodyDataProvider;
     public static ISelectionProvider selectionProvider;
     
@@ -177,8 +180,6 @@ public class StackingNatTableFactory {
                 configRegistry.registerConfigAttribute(
                         CellConfigAttributes.CELL_STYLE, cellStyle,
                         DisplayMode.NORMAL, StackingNatTableFactory.COLUMN_FIVE_LABEL);
-
-
 
 
             	configRegistry.registerConfigAttribute(

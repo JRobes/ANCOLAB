@@ -87,7 +87,6 @@ import materialstable.AddUserMaterialDialog;
 import materialstable.MaterialsTable;
 import materialstable.MaterialsTableBodyLayerStack;
 import nattable05filter.adddeleterows.AddRowCommand;
-import stackingtable.StackingNatTableFactory;
 import stackingtable.StackingTable;
 
 public class AncolabUserInterface {

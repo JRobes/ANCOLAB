@@ -24,6 +24,8 @@ import org.eclipse.nebula.widgets.nattable.grid.layer.GridLayer;
 import org.eclipse.nebula.widgets.nattable.grid.layer.RowHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
+import org.eclipse.nebula.widgets.nattable.layer.cell.AggregateConfigLabelAccumulator;
+import org.eclipse.nebula.widgets.nattable.layer.cell.CellOverrideLabelAccumulator;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ColumnOverrideLabelAccumulator;
 import org.eclipse.nebula.widgets.nattable.painter.layer.NatGridLayerPainter;
 import org.eclipse.nebula.widgets.nattable.selection.RowSelectionProvider;
@@ -51,6 +53,8 @@ public class StackingTable {
     public static String COLUMN_THREE_LABEL = "ColumnThreeLabel";
     public static String COLUMN_FOUR_LABEL = "ColumnFourLabel";
     public static String COLUMN_FIVE_LABEL = "ColumnFiveLabel";
+    public static String TEST = "FFF";
+
 	
     @SuppressWarnings({ "unused", "rawtypes", "unchecked" })
 	public StackingTable(Composite parent, 
@@ -78,11 +82,7 @@ public class StackingTable {
         bodyDataLayer.setColumnWidthByPosition(3, AncolabConstants.NUMBER_CELL_WIDTH);
         bodyDataLayer.setColumnWidthByPosition(4, AncolabConstants.STRING_CELL_WIDTH);
 
-        
-        final ColumnOverrideLabelAccumulator columnLabelAccumulator =
-                new ColumnOverrideLabelAccumulator(bodyDataLayer);
-        bodyDataLayer.setConfigLabelAccumulator(columnLabelAccumulator);
-        registerColumnLabels(columnLabelAccumulator);      
+
         
         stackingTableSelectionLayer = new SelectionLayer(bodyDataLayer);
         ViewportLayer viewportLayer = new ViewportLayer(stackingTableSelectionLayer);
@@ -109,14 +109,46 @@ public class StackingTable {
        selectionProvider = new RowSelectionProvider<AncolabStackingLayer>(stackingTableSelectionLayer,(IRowDataProvider<AncolabStackingLayer>) bodyDataProvider,false);
 
        NatGridLayerPainter layerPainter = new NatGridLayerPainter(natTable,  DataLayer.DEFAULT_ROW_HEIGHT);
-       natTable.setLayerPainter(layerPainter);            
+       natTable.setLayerPainter(layerPainter);   
+       
+       
+       
 
+       final ColumnOverrideLabelAccumulator columnLabelAccumulator =
+               new ColumnOverrideLabelAccumulator(bodyDataLayer);
+       registerColumnLabels(columnLabelAccumulator);      
+       
+       
+       //final CellOverrideLabelAccumulator cellOverrideLabelAccumulator = 
+    	//	   new CellOverrideLabelAccumulator((IRowDataProvider) bodyDataLayer);
+       
+       //cellOverrideLabelAccumulator.registerOverride(cellValue, col, configLabel);
+       
+       
+       AggregateConfigLabelAccumulator aggregateConfigLabelAccumulator = new AggregateConfigLabelAccumulator();
+       aggregateConfigLabelAccumulator.add(columnLabelAccumulator);
+       aggregateConfigLabelAccumulator.add(new StackingTableLabelAccumulator(bodyDataProvider));
+       
+       bodyDataLayer.setConfigLabelAccumulator(aggregateConfigLabelAccumulator);
+       
+
+       StackingTableLabelAccumulator acc2 = new StackingTableLabelAccumulator(bodyDataProvider);
+       
+      // acc2.registerOverrides(key, configLabels);
+       
+       
+       
+       
        //SI ELIMINO LO DE ABAJO NO SE VEN LOS DATOS
        
        natTable.addConfiguration(new DefaultNatTableStyleConfiguration());
        gridLayer.addConfiguration(new DefaultEditConfiguration());
        gridLayer.addConfiguration(new DefaultEditBindings());
        natTable.addConfiguration(new StackingTableConfiguration(bodyDataProvider));
+      
+       
+       
+       
        natTable.configure();    
        
        DragAndDropSupport dropSupport =
@@ -124,6 +156,14 @@ public class StackingTable {
        Transfer[] transfer2 = { TextTransfer.getInstance() };
        natTable.addDropSupport(DND.DROP_COPY, transfer2, dropSupport);
       
+		 
+		 //LABEL ACCUMULATORS
+      // CellOverrideLabelAccumulator cellLabelAccumulator =
+        //       new CellOverrideLabelAccumulator<>(bodyDataProvider);
+       
+      // cellLabelAccumulator.registerOverride("AAA", 2, CELL_LABEL);
+		 //END LABEL ACCUMULATORS
+
       
 	}
 	
@@ -137,6 +177,8 @@ public class StackingTable {
         columnLabelAccumulator.registerColumnOverrides(2, COLUMN_THREE_LABEL);
         columnLabelAccumulator.registerColumnOverrides(3, COLUMN_FOUR_LABEL);
         columnLabelAccumulator.registerColumnOverrides(4, COLUMN_FIVE_LABEL);
+        columnLabelAccumulator.registerColumnOverrides(4, TEST);
+
     }
 	
 	

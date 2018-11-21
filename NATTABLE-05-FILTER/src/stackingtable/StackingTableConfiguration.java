@@ -55,6 +55,18 @@ public class StackingTableConfiguration extends AbstractRegistryConfiguration {
         		//IEditableRule.ALWAYS_EDITABLE, 
         		DisplayMode.EDIT, 
         		StackingNatTableFactory.COLUMN_FOUR_LABEL);        
+      
+        Style cellStyle2 = new Style();
+        cellStyle2.setAttributeValue(
+                CellStyleAttributes.BACKGROUND_COLOR,
+                GUIHelper.COLOR_GREEN);
+        configRegistry.registerConfigAttribute(
+                CellConfigAttributes.CELL_STYLE, cellStyle2,
+                DisplayMode.NORMAL, StackingTable.TEST);//StackingNatTableFactory.COMPOSITE_THICKNESS_LABEL);
+
+      
+        
+        
         
         
         
@@ -117,6 +129,10 @@ public class StackingTableConfiguration extends AbstractRegistryConfiguration {
                 getOrientationValidator(), DisplayMode.EDIT,
                 NatTableFactory.COLUMN_TWO_LABEL);
     */
+        
+        
+        
+        
 	}
 
 }
