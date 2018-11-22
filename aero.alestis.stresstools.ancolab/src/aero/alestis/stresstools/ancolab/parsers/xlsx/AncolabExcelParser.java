@@ -60,8 +60,8 @@ public class AncolabExcelParser {
 	
 	}
 	  private String getData(Row row,int column) {
-	    
 	        DataFormatter formatter = new DataFormatter();
+	        //formatter.setDefaultNumberFormat(format);
 	        String data1 = formatter.formatCellValue(row.getCell(column));
 	        return data1;
 	  }

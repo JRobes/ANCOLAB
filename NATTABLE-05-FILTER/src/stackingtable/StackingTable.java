@@ -44,7 +44,7 @@ import ca.odell.glazedlists.EventList;
 import nattable05filter.parts.DragAndDropSupport;
 
 public class StackingTable {
-    private NatTable natTable;
+	private NatTable natTable;
     public static IDataProvider bodyDataProvider;
     public static ISelectionProvider selectionProvider;
 
@@ -54,14 +54,13 @@ public class StackingTable {
     public static String COLUMN_FOUR_LABEL = "ColumnFourLabel";
     public static String COLUMN_FIVE_LABEL = "ColumnFiveLabel";
     public static String TEST = "FFF";
+	public static String INVALID_THICKNESS_LABEL = "InvalidThicknessLabel";
 
 	
     @SuppressWarnings({ "unused", "rawtypes", "unchecked" })
 	public StackingTable(Composite parent, 
 			EventList<AncolabStackingLayer> ancolabStackingData, 
 			SelectionLayer stackingTableSelectionLayer ) {
-		
-    	
     	
         IConfigRegistry configRegistry = null;
     	String[] propertyNames = { "name", "library", "type", "angle", "thickness"};
@@ -128,26 +127,27 @@ public class StackingTable {
        AggregateConfigLabelAccumulator aggregateConfigLabelAccumulator = new AggregateConfigLabelAccumulator();
        aggregateConfigLabelAccumulator.add(columnLabelAccumulator);
        aggregateConfigLabelAccumulator.add(new StackingTableLabelAccumulator(bodyDataProvider));
+       aggregateConfigLabelAccumulator.add(new StackingTableThicknessLabelAccumulator(bodyDataProvider));
+
        
        bodyDataLayer.setConfigLabelAccumulator(aggregateConfigLabelAccumulator);
        
 
-       StackingTableLabelAccumulator acc2 = new StackingTableLabelAccumulator(bodyDataProvider);
+      // StackingTableLabelAccumulator acc2 = new StackingTableLabelAccumulator(bodyDataProvider);
        
       // acc2.registerOverrides(key, configLabels);
        
-       
-       
-       
        //SI ELIMINO LO DE ABAJO NO SE VEN LOS DATOS
-       
+       /*
        natTable.addConfiguration(new DefaultNatTableStyleConfiguration());
        gridLayer.addConfiguration(new DefaultEditConfiguration());
        gridLayer.addConfiguration(new DefaultEditBindings());
-       natTable.addConfiguration(new StackingTableConfiguration(bodyDataProvider));
-      
-       
-       
+     */
+       bodyDataLayer.addConfiguration(new DefaultNatTableStyleConfiguration());
+       bodyDataLayer.addConfiguration(new StackingTableConfiguration(bodyDataProvider));
+
+       bodyDataLayer.addConfiguration(new DefaultEditConfiguration());
+       bodyDataLayer.addConfiguration(new DefaultEditBindings());   
        
        natTable.configure();    
        
@@ -177,7 +177,7 @@ public class StackingTable {
         columnLabelAccumulator.registerColumnOverrides(2, COLUMN_THREE_LABEL);
         columnLabelAccumulator.registerColumnOverrides(3, COLUMN_FOUR_LABEL);
         columnLabelAccumulator.registerColumnOverrides(4, COLUMN_FIVE_LABEL);
-        columnLabelAccumulator.registerColumnOverrides(4, TEST);
+        //columnLabelAccumulator.registerColumnOverrides(4, TEST);
 
     }
 	

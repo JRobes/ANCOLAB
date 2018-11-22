@@ -18,10 +18,8 @@ public class StackingTableLabelAccumulator extends AbstractOverrider {
 		@SuppressWarnings("rawtypes")
 		AncolabStackingLayer mat = (AncolabStackingLayer) ((IRowDataProvider) dataProvider).getRowObject(rowPosition);
 		System.out.println("dentro del acumulador ...................."+mat.getType());
-		if(mat.getType().equals("Composite")) {
-			//System.out.println(mat.getType());
-			configLabels.addLabel(StackingNatTableFactory.COMPOSITE_THICKNESS_LABEL);
-			System.out.println(configLabels.getLabels().get(1).toString());
+		if((mat.getType().equals("Composite") && columnPosition == 4) || (mat.getType().equals("Honeycomb") && columnPosition == 3) ) {
+			configLabels.addLabelOnTop(StackingTable.TEST);
 		}
 		else {
 			System.out.println("noe es un composite es un oney");

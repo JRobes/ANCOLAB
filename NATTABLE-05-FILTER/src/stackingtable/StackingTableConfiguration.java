@@ -27,19 +27,19 @@ public class StackingTableConfiguration extends AbstractRegistryConfiguration {
                 GUIHelper.COLOR_WHITE);
         configRegistry.registerConfigAttribute(
                 CellConfigAttributes.CELL_STYLE, cellStyle,
-                DisplayMode.NORMAL, StackingNatTableFactory.COLUMN_ONE_LABEL);
+                DisplayMode.NORMAL, StackingTable.COLUMN_ONE_LABEL);
         configRegistry.registerConfigAttribute(
                 CellConfigAttributes.CELL_STYLE, cellStyle,
-                DisplayMode.NORMAL, StackingNatTableFactory.COLUMN_TWO_LABEL);
+                DisplayMode.NORMAL, StackingTable.COLUMN_TWO_LABEL);
         configRegistry.registerConfigAttribute(
                 CellConfigAttributes.CELL_STYLE, cellStyle,
-                DisplayMode.NORMAL, StackingNatTableFactory.COLUMN_THREE_LABEL);
+                DisplayMode.NORMAL, StackingTable.COLUMN_THREE_LABEL);
         configRegistry.registerConfigAttribute(
                 CellConfigAttributes.CELL_STYLE, cellStyle,
-                DisplayMode.NORMAL, StackingNatTableFactory.COLUMN_FOUR_LABEL);
+                DisplayMode.NORMAL, StackingTable.COLUMN_FOUR_LABEL);
         configRegistry.registerConfigAttribute(
                 CellConfigAttributes.CELL_STYLE, cellStyle,
-                DisplayMode.NORMAL, StackingNatTableFactory.COLUMN_FIVE_LABEL);
+                DisplayMode.NORMAL, StackingTable.COLUMN_FIVE_LABEL);
 
     	
         configRegistry.registerConfigAttribute(
@@ -47,90 +47,39 @@ public class StackingTableConfiguration extends AbstractRegistryConfiguration {
         		new ThicknessEditableRule(bodyDataProvider, "Honeycomb", 4),
         		//IEditableRule.ALWAYS_EDITABLE, 
         		DisplayMode.EDIT, 
-        		StackingNatTableFactory.COLUMN_FIVE_LABEL);
+        		StackingTable.COLUMN_FIVE_LABEL);
        
         configRegistry.registerConfigAttribute(
         		EditConfigAttributes.CELL_EDITABLE_RULE, 
         		new ThicknessEditableRule(bodyDataProvider, "Composite", 3),
         		//IEditableRule.ALWAYS_EDITABLE, 
         		DisplayMode.EDIT, 
-        		StackingNatTableFactory.COLUMN_FOUR_LABEL);        
-      
+        		StackingTable.COLUMN_FOUR_LABEL);        
+
+        
+        
         Style cellStyle2 = new Style();
         cellStyle2.setAttributeValue(
                 CellStyleAttributes.BACKGROUND_COLOR,
-                GUIHelper.COLOR_GREEN);
+                GUIHelper.COLOR_WIDGET_LIGHT_SHADOW);
+        
         configRegistry.registerConfigAttribute(
                 CellConfigAttributes.CELL_STYLE, cellStyle2,
-                DisplayMode.NORMAL, StackingTable.TEST);//StackingNatTableFactory.COMPOSITE_THICKNESS_LABEL);
-
-      
-        
-        
-        
-        
-        
-        //configRegistry.registerConfigAttribute(EditConfigAttributes.CELL_EDITABLE_RULE, IEditableRule.ALWAYS_EDITABLE);
-        
-        
-        
-        
-
-/*
-
-    	configRegistry.registerConfigAttribute(
-        		EditConfigAttributes.CELL_EDITABLE_RULE, 
-        		//new OrientationEditableRule(selectionProvider, StressToolsConstants.HONEYCOMB_COMPOSITE_TYPE),
-        		IEditableRule.ALWAYS_EDITABLE, 
-        		DisplayMode.EDIT, 
-        		StackingNatTableFactory.COLUMN_FIVE_LABEL);
-    */
-    	
-    	
-    	/*
-    	configRegistry.registerConfigAttribute(
-        		EditConfigAttributes.CELL_EDITABLE_RULE, 
-        		new OrientationEditableRule(selectionProvider, StressToolsConstants.HONEYCOMB_COMPOSITE_TYPE),
-        		//IEditableRule.ALWAYS_EDITABLE, 
-        		DisplayMode.EDIT, 
-        		StackingNatTableFactory.COLUMN_FOUR_LABEL);
-    	*/
-    	
-    	
-    	
-
-        		
-        
-    	
-    	
-    	//TextCellEditor textCellEditor = new TextCellEditor();
-    	//textCellEditor.setErrorDecorationEnabled(true);
-    	
-    	
-      /*      
+                DisplayMode.NORMAL, StackingTable.TEST);
+  
+        // configure the validation error style
+        Style validationErrorStyle = new Style();
+        validationErrorStyle.setAttributeValue(
+                CellStyleAttributes.BACKGROUND_COLOR,
+                GUIHelper.COLOR_RED);
+        validationErrorStyle.setAttributeValue(
+                CellStyleAttributes.FOREGROUND_COLOR,
+                GUIHelper.COLOR_WHITE);        
         configRegistry.registerConfigAttribute(
-        		EditConfigAttributes.CELL_EDITOR, 
-        		new TextCellEditor(true, true),
-                DisplayMode.EDIT,
-                StackingNatTableFactory.COLUMN_FIVE_LABEL);
-        
-       */ 
-        
-        /*
-        configRegistry.registerConfigAttribute(
-                EditConfigAttributes.DATA_VALIDATOR,
-                getThicknessValidator(), DisplayMode.EDIT,
-                NatTableFactory.COLUMN_FIVE_LABEL);
-        */   
-
-     /*
-        configRegistry.registerConfigAttribute(
-                EditConfigAttributes.DATA_VALIDATOR,
-                getOrientationValidator(), DisplayMode.EDIT,
-                NatTableFactory.COLUMN_TWO_LABEL);
-    */
-        
-        
+                CellConfigAttributes.CELL_STYLE,
+                validationErrorStyle,
+                DisplayMode.NORMAL,
+                StackingTable.INVALID_THICKNESS_LABEL);
         
         
 	}
