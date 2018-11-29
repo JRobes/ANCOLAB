@@ -81,6 +81,11 @@ public class StackingTableConfiguration extends AbstractRegistryConfiguration {
                 DisplayMode.NORMAL,
                 StackingTable.INVALID_THICKNESS_LABEL);
         
+        configRegistry.registerConfigAttribute(
+                CellConfigAttributes.CELL_STYLE,
+                validationErrorStyle,
+                DisplayMode.NORMAL,
+                StackingTable.INVALID_ANGLE_LABEL);       
         
 	}
 

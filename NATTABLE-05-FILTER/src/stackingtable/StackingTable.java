@@ -45,8 +45,10 @@ import nattable05filter.parts.DragAndDropSupport;
 
 public class StackingTable {
 	private NatTable natTable;
-    public static IDataProvider bodyDataProvider;
-    public static ISelectionProvider selectionProvider;
+    private static IDataProvider bodyDataProvider;
+ 
+
+	public static ISelectionProvider selectionProvider;
 
     public static String COLUMN_ONE_LABEL = "ColumnOneLabel";
     public static String COLUMN_TWO_LABEL = "ColumnTwoLabel";
@@ -55,6 +57,7 @@ public class StackingTable {
     public static String COLUMN_FIVE_LABEL = "ColumnFiveLabel";
     public static String TEST = "FFF";
 	public static String INVALID_THICKNESS_LABEL = "InvalidThicknessLabel";
+	public static String INVALID_ANGLE_LABEL = "InvalidAngleLabel";
 
 	
     @SuppressWarnings({ "unused", "rawtypes", "unchecked" })
@@ -128,6 +131,7 @@ public class StackingTable {
        aggregateConfigLabelAccumulator.add(columnLabelAccumulator);
        aggregateConfigLabelAccumulator.add(new StackingTableLabelAccumulator(bodyDataProvider));
        aggregateConfigLabelAccumulator.add(new StackingTableThicknessLabelAccumulator(bodyDataProvider));
+       aggregateConfigLabelAccumulator.add(new StackingTableOrientationLabelAccumulator(bodyDataProvider));
 
        
        bodyDataLayer.setConfigLabelAccumulator(aggregateConfigLabelAccumulator);
@@ -170,7 +174,9 @@ public class StackingTable {
 	public NatTable getNatTable() {
 		return natTable;
 	}
-	
+	public static IDataProvider getBodyDataProvider() {
+		return bodyDataProvider;
+	}
     private static void registerColumnLabels(ColumnOverrideLabelAccumulator columnLabelAccumulator) {
         columnLabelAccumulator.registerColumnOverrides(0, COLUMN_ONE_LABEL);
         columnLabelAccumulator.registerColumnOverrides(1, COLUMN_TWO_LABEL);

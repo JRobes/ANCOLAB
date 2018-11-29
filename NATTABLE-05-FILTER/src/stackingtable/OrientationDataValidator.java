@@ -5,18 +5,17 @@ import org.eclipse.nebula.widgets.nattable.data.validate.DataValidator;
 
 import aero.alestis.stresstools.ancolab.model.AncolabStackingLayer;
 
-public class ThicknessDataValidator extends DataValidator {
+public class OrientationDataValidator extends DataValidator {
 	IRowDataProvider<?> bodyDataProvider;
-	public ThicknessDataValidator(IRowDataProvider<?> bodyDataProv) {
+	public OrientationDataValidator(IRowDataProvider<?> bodyDataProv) {
 		this.bodyDataProvider = bodyDataProv;
 	}
 	@Override
 	public boolean validate(int columnIndex, int rowIndex, Object newValue) {
 		AncolabStackingLayer rowObject = (AncolabStackingLayer) this.bodyDataProvider.getRowObject(rowIndex);
 		try {
-			Double.parseDouble(rowObject.getThickness());
+			Double.parseDouble(rowObject.getAngle());
 		}catch(NumberFormatException e) {
-			//e.printStackTrace();
 	        return false;
 		}
 		if(Double.parseDouble(rowObject.getThickness()) < 0){
@@ -24,4 +23,5 @@ public class ThicknessDataValidator extends DataValidator {
 		}
 		return true;
 	}
+
 }

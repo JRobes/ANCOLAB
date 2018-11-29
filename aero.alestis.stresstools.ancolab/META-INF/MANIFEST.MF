@@ -7,6 +7,8 @@ Export-Package: .,
  aero.alestis.stresstools.ancolab.business,
  aero.alestis.stresstools.ancolab.db,
  aero.alestis.stresstools.ancolab.model,
+ aero.alestis.stresstools.ancolab.parsers.xlsx,
  aero.alestis.stresstools.ancolab.parsers.xml,
  aero.alestis.stresstools.composite.laminate
 Import-Package: org.eclipse.swt.widgets
+Bundle-ClassPath: .

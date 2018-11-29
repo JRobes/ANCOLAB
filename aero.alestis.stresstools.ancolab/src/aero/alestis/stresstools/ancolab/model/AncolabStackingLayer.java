@@ -8,10 +8,16 @@ public class AncolabStackingLayer implements Cloneable {
 	private String angle;
 		
 	public AncolabStackingLayer(String name, String library, String type, String thickness) {
+		if(thickness.equals("0.0")) {
+			this.thickness = "";
+		}
+		else {
+			this.thickness = thickness;
+		}
 		this.name = name;
 		this.library = library;
 		this.type = type;
-		this.thickness = thickness;
+		//this.thickness = thickness;
 		this.angle = "";
 	}
 	public AncolabStackingLayer() {

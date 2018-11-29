@@ -34,6 +34,7 @@ import org.eclipse.nebula.widgets.nattable.config.AbstractUiBindingConfiguration
 import org.eclipse.nebula.widgets.nattable.config.ConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.config.IConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.coordinate.Range;
+import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
 import org.eclipse.nebula.widgets.nattable.data.IRowDataProvider;
 import org.eclipse.nebula.widgets.nattable.data.ListDataProvider;
 import org.eclipse.nebula.widgets.nattable.export.command.ExportCommand;
@@ -48,12 +49,15 @@ import org.eclipse.nebula.widgets.nattable.ui.binding.UiBindingRegistry;
 import org.eclipse.nebula.widgets.nattable.ui.matcher.MouseEventMatcher;
 import org.eclipse.nebula.widgets.nattable.ui.menu.PopupMenuAction;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -66,6 +70,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
@@ -79,6 +84,7 @@ import aero.alestis.stresstools.ancolab.business.FacadeBusinessAncolabMaterials;
 import aero.alestis.stresstools.ancolab.db.FacadeDbAncolabMaterials.LoadSaveStrategy;
 import aero.alestis.stresstools.ancolab.model.AncolabMaterial;
 import aero.alestis.stresstools.ancolab.model.AncolabStackingLayer;
+import aero.alestis.stresstools.ancolab.parsers.xlsx.AncolabExcelParser;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.GlazedLists;
 import ca.odell.glazedlists.event.ListEvent;
@@ -87,6 +93,7 @@ import materialstable.AddUserMaterialDialog;
 import materialstable.MaterialsTable;
 import materialstable.MaterialsTableBodyLayerStack;
 import stackingtable.StackingTable;
+import stackingtable.ThicknessDataValidator;
 
 public class AncolabUserInterface {
     
@@ -95,6 +102,8 @@ public class AncolabUserInterface {
 	
     List<AncolabMaterial> theList = new ArrayList<AncolabMaterial>();
     private ListDataProvider<AncolabMaterial> materialsTableBodyDataProvider;
+    
+    private IDataProvider stackingTableDataProvider;
     
     private MaterialsTableBodyLayerStack bodyLayerStack;
     
@@ -127,6 +136,8 @@ public class AncolabUserInterface {
 	
 	@PostConstruct
 	public void postConstruct(Composite parent) {
+		 System.out.println("User Directory:\t"+System.getProperty("user.dir"));
+
 		 shell = parent.getShell();
 		 toolkit = new FormToolkit(parent.getDisplay());
 		 form = toolkit.createScrolledForm(parent);
@@ -166,6 +177,8 @@ public class AncolabUserInterface {
 		 principalLayout.makeColumnsEqualWidth = false;
 		 form.getBody().setLayout(principalLayout);
 
+		 
+		 
 		 //BEGGINING OF STACKING TABLE SECTION
 		 Section sectionStakingTable = toolkit.createSection(form.getBody(), Section.DESCRIPTION|Section.TITLE_BAR| Section.TWISTIE|Section.EXPANDED);
 		 TableWrapData sectionStakingTabledata = new TableWrapData(TableWrapData.FILL_GRAB);
@@ -179,7 +192,7 @@ public class AncolabUserInterface {
 
 		 
 		 StackingTable stackingTable = new StackingTable(compositeOfSectionStackingTable, this.ancolabStackingData, this.stackingTableSelectionLayer);
-		 
+		 stackingTableDataProvider = stackingTable.getBodyDataProvider();
 		 natTableStacking = stackingTable.getNatTable();
 		 
 		 //natTableStacking = StackingNatTableFactory.createTable(compositeOfSectionStackingTable, this.ancolabStackingData, this.stackingTableSelectionLayer);
@@ -327,14 +340,14 @@ public class AncolabUserInterface {
 		 configRegistryMaterials =new ConfigRegistry();
 		 //filterAncolabMaterialGridLayer = new FilterAncolabMaterialGridLayer(configRegistryMaterials);
 		 
+		 //AncolabExcelParser excelParser = new AncolabExcelParser();
+		 //theList = excelParser.getList();
 		 
 		 theList = FacadeBusinessAncolabMaterials.INSTANCE.getAllMaterials(LoadSaveStrategy.SERIALIZABLE, 
-	        		"C:\\Users\\javier.robes\\Desktop\\TAREAS\\ANCOLAB-MATERIALS\\serial.ser");
+	      		"C:\\Users\\javier.robes\\Desktop\\TAREAS\\ANCOLAB-MATERIALS\\serial.ser");
 		 
 		 this.ancolabMaterialsData = GlazedLists.eventList(theList);
-		 
-		 
-		 
+		 		 
 		 MaterialsTable matnat = new MaterialsTable(compositeOfSectionMaterialsTable, ancolabMaterialsData);
 		 selectionLayerMaterialTable = matnat.getSelectionLayer();
 		 natTableMaterials = matnat.getNatTable();
@@ -511,6 +524,49 @@ public class AncolabUserInterface {
 	
 
 		 sectionResultsTable.setClient(compositeOfSectionResultsTable);
+		 
+		 
+		 
+		 
+		 
+		 
+		// GridLayout gridLayoutForResultsSection = new GridLayout(1,false);
+		// compositeOfResultsSection.setLayout(gridLayoutForResultsSection);
+
+		 
+		// Button testButton = new Button(compositeOfResultsSection,  SWT.PUSH | SWT.COLOR_GRAY);	 
+		// testButton.setText("fff");
+		 /*
+		 GridLayout gridLayoutForResultSection = new GridLayout(1,false);
+		 compositeOfSectionResults.setLayout(gridLayoutForResultSection);	 
+		 */
+		 
+		 
+		 
+
+		 
+		
+		 /*
+		// Composite compositeOfSectionResultsTable = toolkit.createComposite(sectionResultsTable);		 
+		 final CTabFolder folder = new CTabFolder(compositeOfSectionResults, SWT.BORDER);
+
+		  folder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		  folder.setSimple(false);
+		  folder.setMinimizeVisible(true);
+		  folder.setMaximizeVisible(true);
+		  
+		    CTabItem item = new CTabItem(folder, SWT.CLOSE);
+		    item.setText("Item ");
+		    Text text = new Text(folder, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
+		    text.setText("Text for item ");
+		    item.setControl(text);
+		 */
+		 
+		 
+		 
+		 
+		 
+		 //sectionResults.setClient(compositeOfResultsSection);
 		 //END OF RESULTS TABLE SECTION
 		 
 		 
@@ -533,14 +589,24 @@ public class AncolabUserInterface {
 		  */
 	     @SuppressWarnings("rawtypes")
 		 ListEventListener listChangeListener = new ListEventListener() {
+	    	    //ThicknessDataValidator thicknessDataValidator = new ThicknessDataValidator((IRowDataProvider<?>) stackingTableDataProvider);
 	    	 	@SuppressWarnings("restriction")
 				@Override
 				public void listChanged(ListEvent listChanges) {
 					
 					System.out.println("Cambio en la lista, tamaño de la lista:\t" + ancolabStackingData.size());
-					if(ancolabStackingData.isEmpty()) broker.post(AncolabEventConstants.STACKING_LIST_EMPTY, "");
+					if(ancolabStackingData.isEmpty()) {
+						broker.post(AncolabEventConstants.STACKING_LIST_EMPTY, "");
+						
+					}
+					else {
+						//thicknessDataValidator.validate(cell, configRegistry, newValue)
 						broker.post(AncolabEventConstants.STACKING_LIST_NOT_EMPTY, "");
-				}
+					}	
+				
+	    	 	
+	    	 	
+	    	 	}
 	        };
 	     ancolabStackingData.addListEventListener(listChangeListener);
 	        
